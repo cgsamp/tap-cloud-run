@@ -1,0 +1,5 @@
+# exclude secrets folder contents, but need one exception to create the folder
+secrets/*
+!secrets/.gitkeep 
+
+.vscode
