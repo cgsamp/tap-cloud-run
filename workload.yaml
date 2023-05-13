@@ -2,12 +2,17 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: tanzu-java-web-app
+  namespace: developer
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: csamp-tanzu-java-web-app
+    app.kubernetes.io/part-of: tanzu-java-web-app
   annotations:
     autoscaling.knative.dev/minScale: "1"
 spec:
+  build:
+    env:
+      - name: BP_JVM_VERSION
+        value: "17"
   source:
     git:
       url: https://github.com/cgsamp/tanzu-java-web-app

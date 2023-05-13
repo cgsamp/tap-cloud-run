@@ -1,0 +1,55 @@
+apiVersion: caching.internal.knative.dev/v1alpha1
+kind: Image
+metadata:
+  annotations:
+    autoscaling.knative.dev/minScale: "1"
+    boot.spring.io/version: 3.0.4
+    conventions.carto.run/applied-conventions: |-
+      appliveview-sample/app-live-view-appflavour-check
+      spring-boot-convention/auto-configure-actuators-check
+      spring-boot-convention/spring-boot
+      spring-boot-convention/spring-boot-graceful-shutdown
+      spring-boot-convention/spring-boot-web
+      spring-boot-convention/spring-boot-actuator
+      spring-boot-convention/spring-boot-actuator-probes
+      spring-boot-convention/app-live-view-appflavour-check
+      spring-boot-convention/app-live-view-connector-boot
+      spring-boot-convention/app-live-view-appflavours-boot
+    developer.conventions/target-containers: workload
+    serving.knative.dev/creator: system:serviceaccount:developer:default
+  creationTimestamp: "2023-05-12T17:35:05Z"
+  generation: 1
+  labels:
+    app: tanzu-java-web-app-00005
+    app.kubernetes.io/component: run
+    app.kubernetes.io/part-of: tanzu-java-web-app
+    apps.tanzu.vmware.com/auto-configure-actuators: "false"
+    apps.tanzu.vmware.com/workload-type: web
+    carto.run/workload-name: tanzu-java-web-app
+    conventions.carto.run/framework: spring-boot
+    serving.knative.dev/configuration: tanzu-java-web-app
+    serving.knative.dev/configurationGeneration: "5"
+    serving.knative.dev/configurationUID: d1747501-2df4-46be-8f3a-d9a414030368
+    serving.knative.dev/revision: tanzu-java-web-app-00005
+    serving.knative.dev/revisionUID: a7091422-df87-4c54-a79c-7989a31e1115
+    serving.knative.dev/service: tanzu-java-web-app
+    serving.knative.dev/serviceUID: 45f5e722-d4af-42e1-abc4-240aef533980
+    tanzu.app.live.view: "true"
+    tanzu.app.live.view.application.actuator.path: actuator
+    tanzu.app.live.view.application.actuator.port: "8080"
+    tanzu.app.live.view.application.flavours: spring-boot
+    tanzu.app.live.view.application.name: tanzu-java-web-app
+  name: tanzu-java-web-app-00005-cache-workload
+  namespace: developer
+  ownerReferences:
+  - apiVersion: serving.knative.dev/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Revision
+    name: tanzu-java-web-app-00005
+    uid: a7091422-df87-4c54-a79c-7989a31e1115
+  resourceVersion: "8123950"
+  uid: 591debde-ad67-4043-be04-e82f62dd478e
+spec:
+  image: us-central1-docker.pkg.dev/samp-tap/workloads/tanzu-java-web-app-developer@sha256:2f3c38118f7db31ba21f7f43215e6bb964c8f9cd1ba47165be5f4dba20130567
+  serviceAccountName: default

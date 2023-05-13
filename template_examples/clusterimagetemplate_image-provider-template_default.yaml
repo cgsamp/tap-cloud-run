@@ -1,0 +1,356 @@
+apiVersion: v1
+items:
+- apiVersion: carto.run/v1alpha1
+  kind: ClusterImageTemplate
+  metadata:
+    annotations:
+      kapp.k14s.io/identity: v1;/carto.run/ClusterImageTemplate/image-provider-template;carto.run/v1alpha1
+      kapp.k14s.io/original: '{"apiVersion":"carto.run/v1alpha1","kind":"ClusterImageTemplate","metadata":{"labels":{"kapp.k14s.io/app":"1683666878925880811","kapp.k14s.io/association":"v1.d3ab95c78fb961557d96732ec2eb395f"},"name":"image-provider-template"},"spec":{"healthRule":{"singleConditionType":"Ready"},"imagePath":".status.artifact.revision","params":[{"default":"default","name":"serviceAccount"}],"ytt":"#@
+        load(\"@ytt:data\", \"data\")\n\n#@ def merge_labels(fixed_values):\n#@   labels
+        = {}\n#@   if hasattr(data.values.workload.metadata, \"labels\"):\n#@     labels.update(data.values.workload.metadata.labels)\n#@   end\n#@   labels.update(fixed_values)\n#@   return
+        labels\n#@ end\n\n---\napiVersion: source.apps.tanzu.vmware.com/v1alpha1\nkind:
+        ImageRepository\nmetadata:\n  name: #@ data.values.workload.metadata.name\n  labels:
+        #@ merge_labels({ \"app.kubernetes.io/component\": \"image\" })\nspec:\n  image:
+        #@ data.values.workload.spec.image\n  interval: 1m0s\n  serviceAccountName:
+        #@ data.values.params.serviceAccount\n"}}'
+      kapp.k14s.io/original-diff-md5: 8e1ca9893e5a176f4f857f553ca2442f
+    creationTimestamp: "2023-05-09T21:14:40Z"
+    generation: 1
+    labels:
+      kapp.k14s.io/app: "1683666878925880811"
+      kapp.k14s.io/association: v1.d3ab95c78fb961557d96732ec2eb395f
+    name: image-provider-template
+    resourceVersion: "129475"
+    uid: 6f114786-fda5-4bf3-9a80-c4aa347acd15
+  spec:
+    healthRule:
+      singleConditionType: Ready
+    imagePath: .status.artifact.revision
+    lifecycle: mutable
+    params:
+    - default: default
+      name: serviceAccount
+    ytt: |
+      #@ load("@ytt:data", "data")
+
+      #@ def merge_labels(fixed_values):
+      #@   labels = {}
+      #@   if hasattr(data.values.workload.metadata, "labels"):
+      #@     labels.update(data.values.workload.metadata.labels)
+      #@   end
+      #@   labels.update(fixed_values)
+      #@   return labels
+      #@ end
+
+      ---
+      apiVersion: source.apps.tanzu.vmware.com/v1alpha1
+      kind: ImageRepository
+      metadata:
+        name: #@ data.values.workload.metadata.name
+        labels: #@ merge_labels({ "app.kubernetes.io/component": "image" })
+      spec:
+        image: #@ data.values.workload.spec.image
+        interval: 1m0s
+        serviceAccountName: #@ data.values.params.serviceAccount
+- apiVersion: carto.run/v1alpha1
+  kind: ClusterImageTemplate
+  metadata:
+    annotations:
+      kapp.k14s.io/identity: v1;/carto.run/ClusterImageTemplate/image-scanner-template;carto.run/v1alpha1
+      kapp.k14s.io/original: '{"apiVersion":"carto.run/v1alpha1","kind":"ClusterImageTemplate","metadata":{"labels":{"kapp.k14s.io/app":"1683666878925880811","kapp.k14s.io/association":"v1.7d6419553fe4d29522bcc6dc11d61feb"},"name":"image-scanner-template"},"spec":{"healthRule":{"multiMatch":{"healthy":{"matchConditions":[{"status":"True","type":"Succeeded"}]},"unhealthy":{"matchConditions":[{"status":"False","type":"PolicySucceeded"},{"status":"Unknown","type":"PolicySucceeded"},{"status":"False","type":"Succeeded"}]}}},"imagePath":".status.compliantArtifact.registry.image","ytt":"#@
+        load(\"@ytt:data\", \"data\")\n\n#@ def merge_labels(fixed_values):\n#@   labels
+        = {}\n#@   if hasattr(data.values.workload.metadata, \"labels\"):\n#@     labels.update(data.values.workload.metadata.labels)\n#@   end\n#@   labels.update(fixed_values)\n#@   return
+        labels\n#@ end\n\n---\napiVersion: scanning.apps.tanzu.vmware.com/v1beta1\nkind:
+        ImageScan\nmetadata:\n  name: #@ data.values.workload.metadata.name\n  labels:
+        #@ merge_labels({ \"app.kubernetes.io/component\": \"image-scan\" })\nspec:\n  registry:\n    image:
+        #@ data.values.image\n  scanTemplate: #@ data.values.params.scanning_image_template\n  #@
+        if data.values.params.scanning_image_policy != None and len(data.values.params.scanning_image_policy)
+        \u003e 0:\n  scanPolicy: #@ data.values.params.scanning_image_policy\n  #@
+        end\n"}}'
+      kapp.k14s.io/original-diff-md5: 8e1ca9893e5a176f4f857f553ca2442f
+    creationTimestamp: "2023-05-09T21:14:40Z"
+    generation: 1
+    labels:
+      kapp.k14s.io/app: "1683666878925880811"
+      kapp.k14s.io/association: v1.7d6419553fe4d29522bcc6dc11d61feb
+    name: image-scanner-template
+    resourceVersion: "129472"
+    uid: 1708fdb2-53b7-45f3-8092-c6e6eb677e30
+  spec:
+    healthRule:
+      multiMatch:
+        healthy:
+          matchConditions:
+          - status: "True"
+            type: Succeeded
+        unhealthy:
+          matchConditions:
+          - status: "False"
+            type: PolicySucceeded
+          - status: Unknown
+            type: PolicySucceeded
+          - status: "False"
+            type: Succeeded
+    imagePath: .status.compliantArtifact.registry.image
+    lifecycle: mutable
+    ytt: |
+      #@ load("@ytt:data", "data")
+
+      #@ def merge_labels(fixed_values):
+      #@   labels = {}
+      #@   if hasattr(data.values.workload.metadata, "labels"):
+      #@     labels.update(data.values.workload.metadata.labels)
+      #@   end
+      #@   labels.update(fixed_values)
+      #@   return labels
+      #@ end
+
+      ---
+      apiVersion: scanning.apps.tanzu.vmware.com/v1beta1
+      kind: ImageScan
+      metadata:
+        name: #@ data.values.workload.metadata.name
+        labels: #@ merge_labels({ "app.kubernetes.io/component": "image-scan" })
+      spec:
+        registry:
+          image: #@ data.values.image
+        scanTemplate: #@ data.values.params.scanning_image_template
+        #@ if data.values.params.scanning_image_policy != None and len(data.values.params.scanning_image_policy) > 0:
+        scanPolicy: #@ data.values.params.scanning_image_policy
+        #@ end
+- apiVersion: carto.run/v1alpha1
+  kind: ClusterImageTemplate
+  metadata:
+    annotations:
+      kapp.k14s.io/identity: v1;/carto.run/ClusterImageTemplate/kaniko-template;carto.run/v1alpha1
+      kapp.k14s.io/original: '{"apiVersion":"carto.run/v1alpha1","kind":"ClusterImageTemplate","metadata":{"labels":{"kapp.k14s.io/app":"1683666878925880811","kapp.k14s.io/association":"v1.c10c861561a741cb5eca412bd45dc631"},"name":"kaniko-template"},"spec":{"imagePath":".status.taskResults[?(@.name==\"image_ref\")].value","lifecycle":"tekton","params":[{"default":"default","name":"serviceAccount"},{"default":{},"name":"registry"},{"default":"./Dockerfile","name":"dockerfile"},{"default":"./","name":"docker_build_context"},{"default":[],"name":"docker_build_extra_args"}],"ytt":"#@
+        load(\"@ytt:data\", \"data\")\n\n#@ def merge_labels(fixed_values):\n#@   labels
+        = {}\n#@   if hasattr(data.values.workload.metadata, \"labels\"):\n#@     labels.update(data.values.workload.metadata.labels)\n#@   end\n#@   labels.update(fixed_values)\n#@   return
+        labels\n#@ end\n\n#@ def param(key):\n#@   if not key in data.values.params:\n#@     return
+        None\n#@   end\n#@   return data.values.params[key]\n#@ end\n\n#@ def image():\n#@   return
+        \"/\".join([\n#@    data.values.params.registry.server,\n#@    data.values.params.registry.repository,\n#@    \"-\".join([\n#@      data.values.workload.metadata.name,\n#@      data.values.workload.metadata.namespace,\n#@    ])\n#@   ])\n#@
+        end\n\n#@ def ca_cert_data():\n#@   if \"ca_cert_data\" not in param(\"registry\"):\n#@     return
+        \"\"\n#@   end\n#@\n#@   return param(\"registry\")[\"ca_cert_data\"]\n#@
+        end\n\n---\napiVersion: tekton.dev/v1beta1\nkind: TaskRun\nmetadata:\n  generateName:
+        #@ data.values.workload.metadata.name + \"-build-\"\n  labels: #@ merge_labels({
+        \"app.kubernetes.io/component\": \"build\" })\nspec:\n  serviceAccountName:
+        #@ data.values.params.serviceAccount\n  taskRef:\n    name: kaniko-build\n    kind:
+        ClusterTask\n  params:\n    - name: image\n      value: #@ image()\n    -
+        name: source_tar\n      value: #@ data.values.source.url\n    - name: dockerfile\n      value:
+        #@ data.values.params.dockerfile\n    - name: context\n      value: #@ data.values.params.docker_build_context\n    -
+        name: extra_args\n      value: #@ data.values.params.docker_build_extra_args\n    -
+        name: ca_cert_data\n      value: #@ ca_cert_data()\n"}}'
+      kapp.k14s.io/original-diff-md5: c6e94dc94aed3401b5d0f26ed6c0bff3
+    creationTimestamp: "2023-05-09T21:14:41Z"
+    generation: 1
+    labels:
+      kapp.k14s.io/app: "1683666878925880811"
+      kapp.k14s.io/association: v1.c10c861561a741cb5eca412bd45dc631
+    name: kaniko-template
+    resourceVersion: "129554"
+    uid: ac4dfd73-15d3-46e5-aa24-05e5ab38f319
+  spec:
+    imagePath: .status.taskResults[?(@.name=="image_ref")].value
+    lifecycle: tekton
+    params:
+    - default: default
+      name: serviceAccount
+    - default: {}
+      name: registry
+    - default: ./Dockerfile
+      name: dockerfile
+    - default: ./
+      name: docker_build_context
+    - default: []
+      name: docker_build_extra_args
+    ytt: |
+      #@ load("@ytt:data", "data")
+
+      #@ def merge_labels(fixed_values):
+      #@   labels = {}
+      #@   if hasattr(data.values.workload.metadata, "labels"):
+      #@     labels.update(data.values.workload.metadata.labels)
+      #@   end
+      #@   labels.update(fixed_values)
+      #@   return labels
+      #@ end
+
+      #@ def param(key):
+      #@   if not key in data.values.params:
+      #@     return None
+      #@   end
+      #@   return data.values.params[key]
+      #@ end
+
+      #@ def image():
+      #@   return "/".join([
+      #@    data.values.params.registry.server,
+      #@    data.values.params.registry.repository,
+      #@    "-".join([
+      #@      data.values.workload.metadata.name,
+      #@      data.values.workload.metadata.namespace,
+      #@    ])
+      #@   ])
+      #@ end
+
+      #@ def ca_cert_data():
+      #@   if "ca_cert_data" not in param("registry"):
+      #@     return ""
+      #@   end
+      #@
+      #@   return param("registry")["ca_cert_data"]
+      #@ end
+
+      ---
+      apiVersion: tekton.dev/v1beta1
+      kind: TaskRun
+      metadata:
+        generateName: #@ data.values.workload.metadata.name + "-build-"
+        labels: #@ merge_labels({ "app.kubernetes.io/component": "build" })
+      spec:
+        serviceAccountName: #@ data.values.params.serviceAccount
+        taskRef:
+          name: kaniko-build
+          kind: ClusterTask
+        params:
+          - name: image
+            value: #@ image()
+          - name: source_tar
+            value: #@ data.values.source.url
+          - name: dockerfile
+            value: #@ data.values.params.dockerfile
+          - name: context
+            value: #@ data.values.params.docker_build_context
+          - name: extra_args
+            value: #@ data.values.params.docker_build_extra_args
+          - name: ca_cert_data
+            value: #@ ca_cert_data()
+- apiVersion: carto.run/v1alpha1
+  kind: ClusterImageTemplate
+  metadata:
+    annotations:
+      kapp.k14s.io/identity: v1;/carto.run/ClusterImageTemplate/kpack-template;carto.run/v1alpha1
+      kapp.k14s.io/original: '{"apiVersion":"carto.run/v1alpha1","kind":"ClusterImageTemplate","metadata":{"labels":{"kapp.k14s.io/app":"1683666878925880811","kapp.k14s.io/association":"v1.4543b39a9204f82bc4eba330b4fc99ba"},"name":"kpack-template"},"spec":{"healthRule":{"multiMatch":{"healthy":{"matchConditions":[{"status":"True","type":"BuilderReady"},{"status":"True","type":"Ready"}]},"unhealthy":{"matchConditions":[{"status":"False","type":"BuilderReady"},{"status":"False","type":"Ready"}]}}},"imagePath":".status.latestImage","params":[{"default":"default","name":"serviceAccount"},{"default":"default","name":"clusterBuilder"},{"default":{},"name":"registry"},{"default":[],"name":"buildServiceBindings"}],"ytt":"#@
+        load(\"@ytt:data\", \"data\")\n\n#@ def merge_labels(fixed_values):\n#@   labels
+        = {}\n#@   if hasattr(data.values.workload.metadata, \"labels\"):\n#@     labels.update(data.values.workload.metadata.labels)\n#@   end\n#@   labels.update(fixed_values)\n#@   return
+        labels\n#@ end\n\n#@ def param(key):\n#@   if not key in data.values.params:\n#@     return
+        None\n#@   end\n#@   return data.values.params[key]\n#@ end\n\n#@ def image():\n#@   return
+        \"/\".join([\n#@    data.values.params.registry.server,\n#@    data.values.params.registry.repository,\n#@    \"-\".join([\n#@      data.values.workload.metadata.name,\n#@      data.values.workload.metadata.namespace,\n#@    ])\n#@   ])\n#@
+        end\n\napiVersion: kpack.io/v1alpha2\nkind: Image\nmetadata:\n  name: #@ data.values.workload.metadata.name\n  labels:
+        #@ merge_labels({ \"app.kubernetes.io/component\": \"build\" })\nspec:\n  tag:
+        #@ image()\n  serviceAccountName: #@ data.values.params.serviceAccount\n  builder:\n    kind:
+        ClusterBuilder\n    name: #@ data.values.params.clusterBuilder\n  source:\n    blob:\n      url:
+        #@ data.values.source.url\n    #@ if hasattr(data.values.workload.spec, \"source\"):\n    #@
+        if/end hasattr(data.values.workload.spec.source, \"subPath\"):\n    subPath:
+        #@ data.values.workload.spec.source.subPath\n    #@ end\n  build:\n    env:\n    -
+        name: BP_OCI_SOURCE\n      value: #@ data.values.source.revision\n    #@ if/end
+        param(\"live-update\"):\n    - name: BP_LIVE_RELOAD_ENABLED\n      value:
+        ''true''\n    #@ if hasattr(data.values.workload.spec.build, \"env\"):\n    #@
+        for var in data.values.workload.spec.build.env:\n    - name: #@ var.name\n      #@
+        if/end hasattr(var, \"value\"):\n      value: #@ var.value\n      #@ if/end
+        hasattr(var, \"valueFrom\"):\n      valueFrom: #@ var.valueFrom\n    #@ end\n    #@
+        end\n    services: #@ data.values.params.buildServiceBindings\n"}}'
+      kapp.k14s.io/original-diff-md5: 8e1ca9893e5a176f4f857f553ca2442f
+    creationTimestamp: "2023-05-09T21:14:41Z"
+    generation: 1
+    labels:
+      kapp.k14s.io/app: "1683666878925880811"
+      kapp.k14s.io/association: v1.4543b39a9204f82bc4eba330b4fc99ba
+    name: kpack-template
+    resourceVersion: "129560"
+    uid: 48f0cf8c-faee-4a53-9c1b-e98837c07756
+  spec:
+    healthRule:
+      multiMatch:
+        healthy:
+          matchConditions:
+          - status: "True"
+            type: BuilderReady
+          - status: "True"
+            type: Ready
+        unhealthy:
+          matchConditions:
+          - status: "False"
+            type: BuilderReady
+          - status: "False"
+            type: Ready
+    imagePath: .status.latestImage
+    lifecycle: mutable
+    params:
+    - default: default
+      name: serviceAccount
+    - default: default
+      name: clusterBuilder
+    - default: {}
+      name: registry
+    - default: []
+      name: buildServiceBindings
+    ytt: |
+      #@ load("@ytt:data", "data")
+
+      #@ def merge_labels(fixed_values):
+      #@   labels = {}
+      #@   if hasattr(data.values.workload.metadata, "labels"):
+      #@     labels.update(data.values.workload.metadata.labels)
+      #@   end
+      #@   labels.update(fixed_values)
+      #@   return labels
+      #@ end
+
+      #@ def param(key):
+      #@   if not key in data.values.params:
+      #@     return None
+      #@   end
+      #@   return data.values.params[key]
+      #@ end
+
+      #@ def image():
+      #@   return "/".join([
+      #@    data.values.params.registry.server,
+      #@    data.values.params.registry.repository,
+      #@    "-".join([
+      #@      data.values.workload.metadata.name,
+      #@      data.values.workload.metadata.namespace,
+      #@    ])
+      #@   ])
+      #@ end
+
+      apiVersion: kpack.io/v1alpha2
+      kind: Image
+      metadata:
+        name: #@ data.values.workload.metadata.name
+        labels: #@ merge_labels({ "app.kubernetes.io/component": "build" })
+      spec:
+        tag: #@ image()
+        serviceAccountName: #@ data.values.params.serviceAccount
+        builder:
+          kind: ClusterBuilder
+          name: #@ data.values.params.clusterBuilder
+        source:
+          blob:
+            url: #@ data.values.source.url
+          #@ if hasattr(data.values.workload.spec, "source"):
+          #@ if/end hasattr(data.values.workload.spec.source, "subPath"):
+          subPath: #@ data.values.workload.spec.source.subPath
+          #@ end
+        build:
+          env:
+          - name: BP_OCI_SOURCE
+            value: #@ data.values.source.revision
+          #@ if/end param("live-update"):
+          - name: BP_LIVE_RELOAD_ENABLED
+            value: 'true'
+          #@ if hasattr(data.values.workload.spec.build, "env"):
+          #@ for var in data.values.workload.spec.build.env:
+          - name: #@ var.name
+            #@ if/end hasattr(var, "value"):
+            value: #@ var.value
+            #@ if/end hasattr(var, "valueFrom"):
+            valueFrom: #@ var.valueFrom
+          #@ end
+          #@ end
+          services: #@ data.values.params.buildServiceBindings
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
