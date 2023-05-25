@@ -124,6 +124,7 @@ It seems clear that the way to target different deployment substrates with diffe
 
 1. **Multiple CSC**: Have multiple `ClusterSupplyChain` objects with appropriate `selectorMatchExpression` sections, and add an attribute to the `Workload` to specify the deployment target. This would also come in handy later to select the `Deployment`.
 1. **Multiple image-provder.templateRef.options**: Add another `option` in the `spec.resources.[image-provider].templateRef section that looks at some key (q: what does  spec.params[?(@.name=="dockerfile")] refer to specifically?)
+1. **Add to the kpack-template to choose a different builder**
 1. **Elaborate on Buildpack**: Create a *Buildpack* (or *meta-buildpack*?) with sufficient `detect` functionality to choose the right subsequent buildpack.
 
 ## Multiple CSC
@@ -145,6 +146,12 @@ Not-sure:
 
 Cons:
 - ..
+
+## Extend the kpack-template
+
+This has some promise because if we are going to use Buildpacks, kpack is the tool to do it. In the above option, we could have two `kpack-template`s, like `kpack-template-default` and `kpack-template-gcr`. This sounds promising-- have if the workload specifies nothing, it gets `kpack-template`. If it specifies a deployment target, it gets `kpack-template-[targetname]`. Then developers not aware of the options will get expected behavior. And if someone wants to add a deployment target, they have to create `kpack-template-targetname`. 
+
+## Modify ClusterBuilder
 
 ## Elaborate buildpack
 

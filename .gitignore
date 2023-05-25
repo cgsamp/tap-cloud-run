@@ -1,5 +1,7 @@
 # exclude secrets folder contents, but need one exception to create the folder
+experiments
+
 secrets/*
-!secrets/.gitkeep 
+!secrets/sample-*
 
 .vscode

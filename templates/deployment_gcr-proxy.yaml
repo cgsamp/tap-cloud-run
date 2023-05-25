@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcr-proxy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: gcr-proxy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gcr-proxy
+    spec:
+      containers:
+      - name: cloud-run-cli
+        image: gcr.io/google.com/cloudsdktool/google-cloud-cli:latest
+        command:
+        - sh
+        - /scripts/script.sh
+        volumeMounts:
+        - name: script-configmap
+          mountPath: /scripts
+          readOnly: false  
+        - name: gcr-access-token
+          mountPath: /access-token
+          readOnly: true  
+      volumes:
+        - name: gcr-access-token
+          secret:
+            secretName: gcr-access-token
+            items:
+            - key: access-token
+              path: access-token
+        - name: script-configmap
+          configMap:
+            name: script-configmap
+            defaultMode: 0777

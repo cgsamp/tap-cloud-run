@@ -1,0 +1,10 @@
+apiVersion: kpack.io/v1alpha2
+kind: ClusterStore
+metadata:
+  name: gcr
+spec:
+  serviceAccountRef:
+    name: kp-default-repository-serviceaccount
+    namespace: kpack
+  sources:
+  - image: gcr.io/buildpacks/builder:google-22

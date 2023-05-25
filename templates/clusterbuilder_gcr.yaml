@@ -1,0 +1,209 @@
+apiVersion: kpack.io/v1alpha2
+kind: ClusterBuilder
+metadata:
+  name: gcr-builder
+spec:
+  order:
+  - group:
+    - id: google.dotnet.sdk
+    - id: google.dotnet.functions-framework
+      optional: true
+    - id: google.dotnet.publish
+    - id: google.dotnet.runtime
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.dotnet.runtime
+    - id: google.config.entrypoint
+    - id: google.utils.label-image
+  - group:
+    - id: google.dart.sdk
+    - id: google.dart.pub
+      optional: true
+    - id: google.dart.compile
+  - group:
+    - id: google.go.runtime
+    - id: google.go.functions-framework
+    - id: google.go.build
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.go.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.go.runtime
+    - id: google.go.gomod
+    - id: google.go.build
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.go.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.go.runtime
+    - id: google.go.gopath
+      optional: true
+    - id: google.go.build
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.go.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.java.graalvm
+    - id: google.java.maven
+    - id: google.java.functions-framework
+      optional: true
+    - id: google.java.native-image
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.java.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.java.runtime
+    - id: google.java.maven
+    - id: google.java.functions-framework
+    - id: google.java.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.java.runtime
+    - id: google.java.gradle
+      optional: true
+    - id: google.java.functions-framework
+    - id: google.java.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.java.runtime
+    - id: google.java.exploded-jar
+    - id: google.utils.label-image
+  - group:
+    - id: google.java.runtime
+    - id: google.java.maven
+    - id: google.config.entrypoint
+    - id: google.java.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.java.runtime
+    - id: google.java.maven
+    - id: google.java.entrypoint
+    - id: google.java.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.java.runtime
+    - id: google.java.gradle
+      optional: true
+    - id: google.config.entrypoint
+    - id: google.java.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.java.runtime
+    - id: google.java.gradle
+      optional: true
+    - id: google.java.entrypoint
+    - id: google.java.clear-source
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.config.flex
+    - id: google.python.runtime
+    - id: google.python.pip
+      optional: true
+    - id: google.python.webserver
+      optional: true
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.python.runtime
+    - id: google.python.functions-framework
+    - id: google.python.pip
+      optional: true
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.python.runtime
+    - id: google.python.pip
+      optional: true
+    - id: google.config.entrypoint
+    - id: google.utils.label-image
+  - group:
+    - id: google.ruby.runtime
+    - id: google.ruby.rubygems
+      optional: true
+    - id: google.ruby.bundle
+      optional: true
+    - id: google.nodejs.runtime
+      optional: true
+    - id: google.ruby.rails
+      optional: true
+    - id: google.config.entrypoint
+    - id: google.utils.label-image
+  - group:
+    - id: google.php.runtime
+    - id: google.utils.nginx
+    - id: google.php.composer-install
+      optional: true
+    - id: google.php.composer-gcp-build
+      optional: true
+    - id: google.php.composer
+      optional: true
+    - id: google.utils.label-image
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.php.webconfig
+  - group:
+    - id: google.nodejs.runtime
+    - id: google.nodejs.yarn
+    - id: google.nodejs.functions-framework
+      optional: true
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.nodejs.runtime
+    - id: google.nodejs.pnpm
+    - id: google.nodejs.functions-framework
+      optional: true
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.nodejs.runtime
+    - id: google.nodejs.npm
+    - id: google.nodejs.functions-framework
+      optional: true
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.nodejs.runtime
+    - id: google.nodejs.functions-framework
+    - id: google.config.entrypoint
+      optional: true
+    - id: google.utils.label-image
+  - group:
+    - id: google.nodejs.runtime
+    - id: google.config.entrypoint
+    - id: google.utils.label-image
+  - group:
+    - id: google.python.missing-entrypoint
+  - group:
+    - id: google.ruby.missing-entrypoint
+  serviceAccountRef:
+    name: kp-default-repository-serviceaccount
+    namespace: kpack
+  stack:
+    kind: ClusterStack
+    name: base-jammy
+  store:
+    kind: ClusterStore
+    name: gcr
+  tag: us-central1-docker.pkg.dev/samp-tap/gcr-testing/gcr-builder
